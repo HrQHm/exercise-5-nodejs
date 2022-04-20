@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import { User } from '../../users/entities/User';
+import { Genre } from './Genre';
 
 @Entity('games')
 export class Game {
@@ -20,6 +21,14 @@ export class Game {
 
   @ManyToMany(() => User, (user) => user.games)
   users: User[];
+
+  @ManyToMany(() => Genre)
+  @JoinTable({
+    name: "genres_games",
+    joinColumns: [{name: 'game_id'}],
+    inverseJoinColumns: [{name:'genre_id'}]
+  })
+  specifications: Genre[];
 
   @CreateDateColumn()
   created_at: Date;
